@@ -1,0 +1,18 @@
+{
+    "0" : "Other",
+    "1" : "Attack",
+    "2" : "Counter",
+    "3" : "Move",
+    "4" : "Item",
+    "5" : "Penalty",
+    "7" : "Flee",
+    "8" : "Triple Advantage",
+    "10" : "Link Ability",
+    "11" : "Follow-up Attack",
+    "12" : "Assist/Rush/Rush2",
+    "20" : "Art",
+    "22" : "Mech Art",
+    "30" : "Craft",
+    "31" : "S-Craft",
+    "32" : "Brave Order"
+}

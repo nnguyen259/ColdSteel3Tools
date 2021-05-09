@@ -1,0 +1,17 @@
+{
+    "0" : "Other",
+    "10" : "One (No Movement)",
+    "11" : "One (Movement)",
+    "12" : "Area (No Movement)",
+    "13" : "Area (Set)",
+    "14" : "Area (Movement)",
+    "15" : "Area (Set + Movement)",
+    "16" : "Area (???)",
+    "17" : "Area (???)",
+    "18" : "Line (???)",
+    "19" : "Line (???)",
+    "20" : "Line (Set)",
+    "31" : "All",
+    "50" : "One (Divine Knight)",
+    "51" : "All (Divine Knight)"
+}
