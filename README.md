@@ -8,6 +8,37 @@ A general modding tool for Trails of Cold Steel 3, also has a randomizer built i
 - Packer: Pack a chosen project into the format the game can understand.
 - Randomizer: Using a project as base, randomize the data then pack them into the format the game can understand.
 
+## Usages
+
+For all tools, Game Directory refers to the directory where the game launcher (`Sen3Launcher.exe`) resides in.
+
+### Unpacker
+
+- **Project Name**: The name of the project the files will be extracted to. All projects can be found under the `/projects` folder.
+
+### Packer
+
+- **Project Name**: The name of the project to get packed. `TOCS3 Vanilla` is the original version of the game.
+
+### Randomizer
+
+- **Base Project**: The name of the project to be used as the base for the randomizer. `TOCS3 Vanilla` is the original version of the game.
+- **Seed**: The seed to be used in the randomizer
+
+The result of the randomizer will be saved in the `results.txt` file.
+
+## Using the Randomizer on yuzu
+
+To use the randomizer with yuzu (a Nintendo Switch Emulator), you can do the following steps:
+
+1. Open yuzu, Right-Click on the game name, and select `Open Mod Data Location`.
+2. Create a new folder in the location named `Randomizer`.
+3. Create a new folder inside `Randomizer` named `romfs`.
+4. Use the `romfs` folder as the game directory for the randomizer.
+5. Enjoy!
+
+As I have no experience with Ryujinx or Switch homebrew, follow their instructions on how to create a LayeredFS folder for mod then use that as the game directory for the randomizer.
+
 ## Randomizer
 
 ### Magic
