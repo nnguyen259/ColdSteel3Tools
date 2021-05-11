@@ -69,6 +69,29 @@ def randomize(projectName='Test', seed=None, enableCraft=True, excludeGuessCraft
                 writer.writeheader()
                 writer.writerows(magicBos)
 
+    if enableSCraft:
+        scrafts = [i for i in magic if i['category'] == '31' and not i['character_restriction'] == '65535']
+        if excludeGuessCraft:
+            scrafts = [i for i in scrafts if int(i['character_restriction']) < 16]
+        scraftsData = [(i['id'], i['character_restriction'], i['level_learn'], i['animation'], i['juna_specific'], i['sort_id'], i['name']) for i in scrafts]
+
+        random.shuffle(scrafts)
+
+        with open('result.txt', 'a', encoding='utf-8') as resultFile, open('ref/char.json') as charFile:
+            chars = json.load(charFile)
+            resultFile.write('\nS-Craft Randomizer Results: \n')
+            for data in scraftsData:
+                scraft = scrafts.pop()
+                index = magic.index(scraft)
+                entry = magic[index]
+                resultFile.write(f'{chars[data[1]]}: {data[-1]} -> {scraft["name"]}\n')
+                entry['id'] = data[0]
+                entry['character_restriction'] = data[1]
+                entry['level_learn'] = data[2]
+                entry['animation'] = data[3]
+                entry['juna_specific'] = data[4]
+                entry['sort_id'] = data[5]
+
 
     with open(f'{inputPath}/magic.csv', 'w', newline='', encoding='utf-8') as magicFile:
         writer = csv.DictWriter(magicFile, fieldnames=headers)

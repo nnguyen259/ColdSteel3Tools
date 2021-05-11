@@ -3,7 +3,7 @@ import sys
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
-buildOptions = dict(packages = ['frames', 'packer', 'randomizer', 'ref', 'schema', 'unpacker'], excludes = [])
+buildOptions = dict(packages = ['frames', 'packer', 'randomizer', 'schema', 'unpacker'], excludes = [])
 
 base = 'Win32GUI' if sys.platform=='win32' else None
 
