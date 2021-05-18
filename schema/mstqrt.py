@@ -60,7 +60,7 @@ MasterQuartzData = {
 }
 
 MasterQuartzMemo = {
-    "size" : "?0?7?6",
+    "size" : "?",
     "uid" : "#0",
     "item_id" : "s",
     "memo_id" : "s",
@@ -73,4 +73,3 @@ MasterQuartzDummy = {
 }
 
 headers = ["MasterQuartzStatus", "MasterQuartzBase", "MasterQuartzDummy"]
-ref = [3222, 3223]

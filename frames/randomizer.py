@@ -1,3 +1,4 @@
+import threading
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
@@ -45,6 +46,11 @@ class Frame(tk.Frame):
             self.notebook.add(frame, text=frame.name)
         self.notebook.grid(column=0, row=4, padx=5, pady=5, sticky='nwse', columnspan=3)
 
+        self.status = tk.StringVar()
+        self.status.set('Status: Ready.')
+        self.lbStatus = ttk.Label(self, textvariable=self.status)
+        self.lbStatus.grid(column=0, row=5, columnspan=2, padx=5, pady=0, sticky='w')
+
         self.btnRandomize = ttk.Button(self, text='Randomize', command=self.doRandomize)
         self.btnRandomize.grid(column=2, row=5, padx=5, pady=5, sticky='nwse')
 
@@ -55,16 +61,32 @@ class Frame(tk.Frame):
 
     def doRandomize(self):
         from distutils.dir_util import copy_tree, remove_tree
+
+        def realRandomize():
+            with open('result.txt', 'w') as resultFile:
+                resultFile.write(f'CS3 Randomzier Results:\nSeed: {self.seed.get()}\n')
+            self.status.set('Preparing files...')
+            os.makedirs(f'{self.gameDirectory.get()}/data/text/dat_en', exist_ok=True)
+            copy_tree(f'projects/{self.projectName.get()}', f'projects/{self.projectName.get()}/tmp')
+            for frame in self.frameLists:
+                self.status.set(f'Randomizing {frame.name}...')
+                frame.randomize(self.projectName.get(), self.seed.get())
+            import packer.packer, packer.scriptpacker
+            self.status.set('Packing tbl files...')
+            packer.packer.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
+            self.status.set('Packing script files...')
+            packer.scriptpacker.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
+            remove_tree(f'projects/{self.projectName.get()}/tmp')
+            self.status.set('Status: Ready.')
+            messagebox.showinfo('Finished', 'All Done!')
+            self.btnDirectory['state'] = 'normal'
+            self.btnRandomize['state'] = 'normal'
+            self.btnBack['state'] = 'normal'
+
         if not self.gameDirectory.get():
             messagebox.showerror('No Directory', 'No game directory selected')
             return
-        with open('result.txt', 'w') as resultFile:
-            resultFile.write(f'CS3 Randomzier Results:\nSeed: {self.seed.get()}\n')
-        os.makedirs(f'{self.gameDirectory.get()}/data/text/dat_en', exist_ok=True)
-        copy_tree(f'projects/{self.projectName.get()}', f'projects/{self.projectName.get()}/tmp')
-        for frame in self.frameLists:
-            frame.randomize(self.projectName.get(), self.seed.get())
-        import packer.packer
-        packer.packer.pack(self.gameDirectory.get(), self.projectName.get(), mode=1)
-        remove_tree(f'projects/{self.projectName.get()}/tmp')
-        messagebox.showinfo('Finished', 'All Done!')
+        self.btnDirectory['state'] = 'disabled'
+        self.btnRandomize['state'] = 'disabled'
+        self.btnBack['state'] = 'disabled'
+        threading.Thread(target=realRandomize).start()

@@ -3,9 +3,9 @@ import csv, random, json
 def randomize(projectName='Test', seed=None, enableCraft=True, excludeGuessCraft=False, enableOrder=True, excludeGuessOrder=False,
               enableSCraft=True, excludeGuessSCraft=False, programMode=True):
     if programMode:
-        inputPath = f'projects/{projectName}/tmp/magic'
+        inputPath = f'projects/{projectName}/tmp/text/magic'
     else:
-        inputPath = f'projects/{projectName}/magic'
+        inputPath = f'projects/{projectName}/text/magic'
     if seed:
         random.seed(seed)
     with open(f'{inputPath}/magic.csv', newline='', encoding='utf-8') as magicFile:
@@ -71,7 +71,7 @@ def randomize(projectName='Test', seed=None, enableCraft=True, excludeGuessCraft
 
     if enableSCraft:
         scrafts = [i for i in magic if i['category'] == '31' and not i['character_restriction'] == '65535']
-        if excludeGuessCraft:
+        if excludeGuessSCraft:
             scrafts = [i for i in scrafts if int(i['character_restriction']) < 16]
         scraftsData = [(i['id'], i['character_restriction'], i['level_learn'], i['animation'], i['juna_specific'], i['sort_id'], i['name']) for i in scrafts]
 
