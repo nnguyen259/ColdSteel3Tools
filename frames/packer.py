@@ -31,20 +31,21 @@ class Frame(ttk.Frame):
         self.entryName = ttk.Combobox(self, textvariable=self.projectName, values=projects, state='readonly')
         self.entryName.current(0)
         self.entryName.grid(column=1, row=2, padx=5, pady=5, sticky='nwse')
+        self.entryName.bind('<<ComboboxSelected>>', self.updateProject)
 
-        self.frmScript = ttk.Labelframe(self, text='Script Unpacking')
+        self.frmScript = ttk.Labelframe(self, text='Script Packing')
         self.frmScript.grid(column=0, row=3, columnspan=3, padx=5, pady=5, sticky='nwse')
 
-        self.unpackScript = tk.IntVar(value=1)
-        self.cbtnUnpackScript = ttk.Checkbutton(self.frmScript, text='Unpack the game script', variable=self.unpackScript, command=self.displayScriptSelect)
-        self.cbtnUnpackScript.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky='w')
+        self.packScript = tk.IntVar(value=1)
+        self.cbtnPackScript = ttk.Checkbutton(self.frmScript, text='Pack the game script', variable=self.packScript, command=self.displayScriptSelect)
+        self.cbtnPackScript.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky='w')
 
         self.frmScriptSelect = tk.Frame(self.frmScript)
         self.frmScriptSelect.grid(row=1, column=0, columnspan=3, sticky='nwse')
 
         ttk.Label(self.frmScriptSelect, text='Available').grid(row=0, column=0, padx=5, pady=5)
         ttk.Label(self.frmScriptSelect, text='Selected').grid(row=0, column=2, padx=5, pady=5)
-        self.availbleList = ['ani', 'battle', 'book', 'minigame', 'scena', 'talk']
+        self.availbleList = [f.name for f in os.scandir(f'projects/{self.projectName.get()}/scripts') if f.is_dir()]
         self.selectedList = []
         self.availbleChoices = tk.StringVar(value=self.availbleList)
         self.selectedChoices = tk.StringVar(value=self.selectedList)
@@ -66,17 +67,62 @@ class Frame(ttk.Frame):
         self.btnPack = ttk.Button(self, text='Pack', command=self.doPack)
         self.btnPack.grid(column=2, row=2, padx=5, pady=5, sticky='nwse')
 
-        ttk.Separator(self, orient='horizontal').grid(column=0, row=3, columnspan=3, sticky='we')
+        ttk.Separator(self, orient='horizontal').grid(column=0, row=4, columnspan=3, sticky='we')
 
         self.status = tk.StringVar()
         self.status.set('Status: Ready.')
         self.lbStatus = ttk.Label(self, textvariable=self.status)
-        self.lbStatus.grid(column=0, row=4, columnspan=3, padx=5, pady=0, sticky='w')
+        self.lbStatus.grid(column=0, row=5, columnspan=3, padx=5, pady=0, sticky='w')
 
     
     def selectDirectory(self):
         directory = filedialog.askdirectory()
         self.gameDirectory.set(directory)
+
+    def updateProject(self, event):
+        self.availbleList = [f.name for f in os.scandir(f'projects/{self.projectName.get()}/scripts') if f.is_dir()]
+        self.selectedList = []
+        self.sortAndRefresh()
+
+    def displayScriptSelect(self):
+        if not self.packScript.get():
+            self.frmScriptSelect.grid_remove()
+        else:
+            self.frmScriptSelect.grid()
+
+    def sortAndRefresh(self):
+        self.availbleList.sort()
+        self.selectedList.sort()
+        self.availbleChoices.set(self.availbleList)
+        self.selectedChoices.set(self.selectedList)
+
+    def moveRight(self):
+        selected = self.lstAvailable.curselection()
+        selected = [self.availbleList[i] for i in selected]
+        if len(selected):
+            self.selectedList.extend(selected)
+            self.availbleList = [item for item in self.availbleList if item not in selected]
+            self.sortAndRefresh()
+
+    def moveLeft(self):
+        selected = self.lstSelected.curselection()
+        selected = [self.selectedList[i] for i in selected]
+        if len(selected):
+            self.availbleList.extend(selected)
+            self.selectedList = [item for item in self.selectedList if item not in selected]
+            self.sortAndRefresh()
+
+    def moveRightAll(self):
+        if len(self.availbleList):
+            self.selectedList.extend(self.availbleList)
+            self.availbleList = []
+            self.sortAndRefresh()
+
+    def moveLeftAll(self):
+        if len(self.selectedList):
+            self.availbleList.extend(self.selectedList)
+            self.selectedList = []
+            self.sortAndRefresh()
 
     def doPack(self):
         def realPack():
@@ -84,8 +130,9 @@ class Frame(ttk.Frame):
             import packer.packer, packer.scriptpacker
             self.status.set('Packing tbl files...')
             packer.packer.pack(self.gameDirectory.get(), self.projectName.get())
-            self.status.set('Packing script files...')
-            packer.scriptpacker.pack(self.gameDirectory.get(), self.projectName.get())
+            if self.packScript.get() and len(self.selectedList):
+                self.status.set('Packing script files...')
+                packer.scriptpacker.pack(self.gameDirectory.get(), self.projectName.get(), moduleList=self.selectedList)
             self.status.set('Status: Ready.')
             messagebox.showinfo('Finished', 'All Done!')
             self.btnDirectory['state'] = 'normal'

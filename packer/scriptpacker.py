@@ -1,8 +1,8 @@
 import os, json
 
-def pack(path=None, projectName=None, randomizer=False):
+def pack(path=None, projectName=None, randomizer=False, moduleList=[]):
     projectDir = f'projects/{projectName}/tmp/scripts' if randomizer else f'projects/{projectName}/scripts'
-    for scriptFolder in [f.name for f in os.scandir(projectDir) if f.is_dir() and not f.name.startswith('tmp')]:
+    for scriptFolder in moduleList:
         gamePath = f'{path}/data/scripts/{scriptFolder}/dat_en'
         os.makedirs(gamePath, exist_ok=True)
 

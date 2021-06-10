@@ -1,13 +1,12 @@
 import os, json
 
-def unpack(path=None, projectName=None):
+def unpack(path=None, projectName=None, moduleList=['scena']):
     os.makedirs(f'projects/{projectName}/scripts', exist_ok=True)
-    scriptTypes = ['scena', 'talk']
 
-    for scriptType in scriptTypes:
-        outpath = f'projects/{projectName}/scripts/{scriptType}'
+    for module in moduleList:
+        outpath = f'projects/{projectName}/scripts/{module}'
         os.makedirs(outpath, exist_ok=True)
-        scriptPath = f'{path}/data/scripts/{scriptType}/dat_en'
+        scriptPath = f'{path}/data/scripts/{module}/dat_en'
         files = [f.name for f in os.scandir(scriptPath) if f.is_file()]
         for file in files:
             os.makedirs(f'{outpath}/{file}', exist_ok=True)
