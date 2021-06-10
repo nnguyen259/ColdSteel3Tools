@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter.constants import VERTICAL
 import tkinter.ttk as ttk
 
-class Frame(tk.Frame):
+class Frame(ttk.Frame):
     def __init__(self, master=None):
-        tk.Frame.__init__(self, master)
+        ttk.Frame.__init__(self, master)
         self.name = 'Magic'
 
         self.enableCraft = tk.IntVar()
