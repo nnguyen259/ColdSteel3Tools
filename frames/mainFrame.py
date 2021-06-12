@@ -1,5 +1,7 @@
+import os
 import tkinter as tk
 import tkinter.ttk as ttk
+import tkinter.messagebox as messagebox
 import frames.unpacker as Unpacker
 import frames.editor as Editor
 import frames.packer as Packer
@@ -17,7 +19,7 @@ class Frame(tk.Frame):
         self.btnUnpack.grid(column=0, row=1, padx=5, pady=5, sticky='nwse')
         ttk.Label(self, text='Unpack the game files to a more readable format').grid(column=1, row=1, padx=5, pady=5, sticky='w')
 
-        self.btnPack = ttk.Button(self, text='Pack Tool', command=lambda: master.replaceScreen(Packer.Frame))
+        self.btnPack = ttk.Button(self, text='Pack Tool', command=lambda: self.changeFrameIfProjectsExist(Packer.Frame))
         self.btnPack.grid(column=0, row=2, padx=5, pady=5, sticky='nwse')
         ttk.Label(self, text='Repack the files back to the format the game can understand').grid(column=1, row=2, padx=5, pady=5, sticky='w')
 
@@ -26,6 +28,13 @@ class Frame(tk.Frame):
         self.btnEditor.grid(column=0, row=3, padx=5, pady=5, sticky='nwse')
         ttk.Label(self, text='Edit the game files').grid(column=1, row=3, padx=5, pady=5, sticky='w')
 
-        self.btnEditor = ttk.Button(self, text='Randomizer', command=lambda: master.replaceScreen(Randomizer.Frame))
-        self.btnEditor.grid(column=0, row=4, padx=5, pady=5, sticky='nwse')
+        self.btnRandomizer = ttk.Button(self, text='Randomizer', command=lambda: self.changeFrameIfProjectsExist(Randomizer.Frame))
+        self.btnRandomizer.grid(column=0, row=4, padx=5, pady=5, sticky='nwse')
         ttk.Label(self, text='Randomize the game').grid(column=1, row=4, padx=5, pady=5, sticky='w')
+
+    def changeFrameIfProjectsExist(self, frame):
+        projects = [f.name for f in os.scandir('projects') if f.is_dir()]
+        if projects:
+            self.master.replaceScreen(frame)
+        else:
+            messagebox.showerror("No project data", "Project data unavailable. Please run the Unpack Tool first.")
