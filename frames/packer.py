@@ -36,7 +36,7 @@ class Frame(ttk.Frame):
         self.frmScript = ttk.Labelframe(self, text='Script Packing')
         self.frmScript.grid(column=0, row=3, columnspan=3, padx=5, pady=5, sticky='nwse')
 
-        self.packScript = tk.IntVar(value=1)
+        self.packScript = tk.IntVar(value=0)
         self.cbtnPackScript = ttk.Checkbutton(self.frmScript, text='Pack the game script', variable=self.packScript, command=self.displayScriptSelect)
         self.cbtnPackScript.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky='w')
 
@@ -45,17 +45,17 @@ class Frame(ttk.Frame):
 
         ttk.Label(self.frmScriptSelect, text='Available').grid(row=0, column=0, padx=5, pady=5)
         ttk.Label(self.frmScriptSelect, text='Selected').grid(row=0, column=2, padx=5, pady=5)
-        self.availbleList = [f.name for f in os.scandir(f'projects/{self.projectName.get()}/scripts') if f.is_dir()]
+        self.availableList = []
         self.selectedList = []
-        self.availbleChoices = tk.StringVar(value=self.availbleList)
+        self.availableChoices = tk.StringVar(value=self.availableList)
         self.selectedChoices = tk.StringVar(value=self.selectedList)
-        self.lstAvailable = tk.Listbox(self.frmScriptSelect, listvariable=self.availbleChoices)
+        self.lstAvailable = tk.Listbox(self.frmScriptSelect, listvariable=self.availableChoices)
         self.lstAvailable.grid(row=1, column=0, rowspan=6, padx=5, pady=5, sticky='nwse')
         self.lstSelected = tk.Listbox(self.frmScriptSelect, listvariable=self.selectedChoices)
         self.lstSelected.grid(row=1, column=2, rowspan=6, padx=5, pady=5, sticky='nwse')
 
-        self.btnMoveRight = ttk.Button(self.frmScriptSelect, text=' > ', command=self.moveRight)
         self.btnMoveRightAll = ttk.Button(self.frmScriptSelect, text=' >>> ', command=self.moveRightAll)
+        self.btnMoveRight = ttk.Button(self.frmScriptSelect, text=' > ', command=self.moveRight)
         self.btnMoveLeft = ttk.Button(self.frmScriptSelect, text=' < ', command=self.moveLeft)
         self.btnMoveLeftAll = ttk.Button(self.frmScriptSelect, text=' <<< ', command=self.moveLeftAll)
 
@@ -74,15 +74,27 @@ class Frame(ttk.Frame):
         self.lbStatus = ttk.Label(self, textvariable=self.status)
         self.lbStatus.grid(column=0, row=5, columnspan=3, padx=5, pady=0, sticky='w')
 
+        self.update()
+        self.displayScriptSelect()
     
     def selectDirectory(self):
         directory = filedialog.askdirectory()
         self.gameDirectory.set(directory)
 
+    def update(self):
+        try:
+            self.frmScript.grid()
+            self.availableList = [f.name for f in os.scandir(f'projects/{self.projectName.get()}/scripts') if f.is_dir()]
+            self.selectedList = []
+            self.sortAndRefresh()
+        except:
+            self.frmScript.grid_remove()
+            self.packScript.set(0)
+        
+        self.displayScriptSelect()
+
     def updateProject(self, event):
-        self.availbleList = [f.name for f in os.scandir(f'projects/{self.projectName.get()}/scripts') if f.is_dir()]
-        self.selectedList = []
-        self.sortAndRefresh()
+        self.update()
 
     def displayScriptSelect(self):
         if not self.packScript.get():
@@ -91,36 +103,36 @@ class Frame(ttk.Frame):
             self.frmScriptSelect.grid()
 
     def sortAndRefresh(self):
-        self.availbleList.sort()
+        self.availableList.sort()
         self.selectedList.sort()
-        self.availbleChoices.set(self.availbleList)
+        self.availableChoices.set(self.availableList)
         self.selectedChoices.set(self.selectedList)
 
     def moveRight(self):
         selected = self.lstAvailable.curselection()
-        selected = [self.availbleList[i] for i in selected]
+        selected = [self.availableList[i] for i in selected]
         if len(selected):
             self.selectedList.extend(selected)
-            self.availbleList = [item for item in self.availbleList if item not in selected]
+            self.availableList = [item for item in self.availableList if item not in selected]
             self.sortAndRefresh()
 
     def moveLeft(self):
         selected = self.lstSelected.curselection()
         selected = [self.selectedList[i] for i in selected]
         if len(selected):
-            self.availbleList.extend(selected)
+            self.availableList.extend(selected)
             self.selectedList = [item for item in self.selectedList if item not in selected]
             self.sortAndRefresh()
 
     def moveRightAll(self):
-        if len(self.availbleList):
-            self.selectedList.extend(self.availbleList)
-            self.availbleList = []
+        if len(self.availableList):
+            self.selectedList.extend(self.availableList)
+            self.availableList = []
             self.sortAndRefresh()
 
     def moveLeftAll(self):
         if len(self.selectedList):
-            self.availbleList.extend(self.selectedList)
+            self.availableList.extend(self.selectedList)
             self.selectedList = []
             self.sortAndRefresh()
 
