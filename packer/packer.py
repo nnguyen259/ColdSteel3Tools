@@ -2,14 +2,12 @@ import os
 import importlib
 import csv, json, struct
 
-def pack(path=None, projectName=None, mode=0):
-    for name in [f.name for f in os.scandir(f'projects/{projectName}') if f.is_dir() and not f.name.startswith('tmp')]:
-        if mode == 0:
-            inputPath = f'projects/{projectName}/'
-        else:
-            inputPath = f'projects/{projectName}/tmp'
+def pack(path=None, projectName=None, randomizer=False):
+    projectDir = f'projects/{projectName}/tmp/text' if randomizer else f'projects/{projectName}/text'
+    os.makedirs(f'{path}/data/text/dat_en', exist_ok=True)
+    for name in [f.name for f in os.scandir(projectDir) if f.is_dir() and not f.name.startswith('tmp')]:
         file = path + '/data/text/dat_en/t_' + name + '.tbl'
-        inputPath += f'/{name}/'
+        inputPath = f'{projectDir}/{name}/'
 
         schemaFile = importlib.import_module('schema.' + name)
         headers = schemaFile.headers
