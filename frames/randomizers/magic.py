@@ -1,3 +1,4 @@
+from randomizer.magic import MagicRandomizer
 import tkinter as tk
 from tkinter.constants import VERTICAL
 import tkinter.ttk as ttk
@@ -34,7 +35,7 @@ class Frame(ttk.Frame):
         self.cbtnExcludeGuessSCraft.grid(row=3, column=0, columnspan=3, padx=20, pady=0, sticky='w')
 
     def randomize(self, projectName, seed):
-        from randomizer.magic import randomize
-        randomize(projectName=projectName, seed=seed, enableCraft=self.enableCraft.get(), excludeGuessCraft=self.excludeGuess.get(),
+        randomizer = MagicRandomizer(projectName, seed)
+        randomizer.randomize(enableCraft=self.enableCraft.get(), excludeGuessCraft=self.excludeGuess.get(),
                   enableOrder=self.enableOrder.get(), excludeGuessOrder=self.excludeGuessOrder.get(),
                   enableSCraft=self.enableSCraft.get(), excludeGuessSCraft=self.excludeGuessSCraft.get())

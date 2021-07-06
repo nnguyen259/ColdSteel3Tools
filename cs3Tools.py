@@ -19,4 +19,5 @@ class CS3App(tk.Tk):
 
 if __name__ == "__main__":
     app = CS3App()
+    app.resizable(False, False)
     app.mainloop()

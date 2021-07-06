@@ -5,6 +5,7 @@ import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
 import frames.mainFrame as Main
 import frames.randomizers.magic as Magic
+import frames.randomizers.orb as Orb
 import frames.randomizers.status as Status
 
 import os
@@ -41,7 +42,7 @@ class Frame(ttk.Frame):
         self.entrySeed.grid(column=1, row=3, padx=5, pady=5, sticky='nwse')
 
         self.notebook = ttk.Notebook(self)
-        self.frameLists = [Magic.Frame(self.notebook)]
+        self.frameLists = [Magic.Frame(self.notebook), Orb.Frame(self.notebook)]
         for frame in self.frameLists:
             self.notebook.add(frame, text=frame.name)
         self.notebook.grid(column=0, row=4, padx=5, pady=5, sticky='nwse', columnspan=3)
@@ -63,14 +64,19 @@ class Frame(ttk.Frame):
         from distutils.dir_util import copy_tree, remove_tree
 
         def realRandomize():
+            seed = self.seed.get()
+            if not seed:
+                import random, string
+                seed = ''.join(random.choices(string.ascii_letters + string.digits, k=30))
+                print(seed)
             with open('result.txt', 'w') as resultFile:
-                resultFile.write(f'CS3 Randomzier Results:\nSeed: {self.seed.get()}\n')
+                resultFile.write(f'CS3 Randomzier Results:\nSeed: {seed}\n')
             self.status.set('Preparing files...')
             os.makedirs(f'{self.gameDirectory.get()}/data/text/dat_en', exist_ok=True)
             copy_tree(f'projects/{self.projectName.get()}', f'projects/{self.projectName.get()}/tmp')
             for frame in self.frameLists:
                 self.status.set(f'Randomizing {frame.name}...')
-                frame.randomize(self.projectName.get(), self.seed.get())
+                frame.randomize(self.projectName.get(), seed)
             import packer.packer, packer.scriptpacker
             self.status.set('Packing tbl files...')
             packer.packer.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
