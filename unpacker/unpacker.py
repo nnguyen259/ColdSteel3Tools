@@ -52,7 +52,6 @@ def unpack(path=None, projectName=None):
             i = 0
             while i < totalEntries:
                 i += 1
-                print(i)
                 chunks = data.split(b'\x00', maxsplit=1)
                 data = io.BytesIO(chunks[1])
                 header = chunks[0].decode('utf-8')
