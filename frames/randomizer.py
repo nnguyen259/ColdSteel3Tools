@@ -7,6 +7,8 @@ import frames.mainFrame as Main
 import frames.randomizers.magic as Magic
 import frames.randomizers.orb as Orb
 import frames.randomizers.status as Status
+import frames.randomizers.misc as Misc
+import frames.randomizers.mons as Mons
 
 import os
 
@@ -42,7 +44,7 @@ class Frame(ttk.Frame):
         self.entrySeed.grid(column=1, row=3, padx=5, pady=5, sticky='nwse')
 
         self.notebook = ttk.Notebook(self)
-        self.frameLists = [Magic.Frame(self.notebook), Orb.Frame(self.notebook)]
+        self.frameLists = [Mons.Frame(self.notebook), Status.Frame(self.notebook), Magic.Frame(self.notebook), Orb.Frame(self.notebook), Misc.Frame(self.notebook)]
         for frame in self.frameLists:
             self.notebook.add(frame, text=frame.name)
         self.notebook.grid(column=0, row=4, padx=5, pady=5, sticky='nwse', columnspan=3)

@@ -7,8 +7,8 @@ class MagicRandomizer(BaseRandomizer):
         random.seed(self.seed)
         self.inputPath += 'magic'
 
-    def randomize(self, enableCraft=True, excludeGuessCraft=False, enableOrder=True, excludeGuessOrder=False,
-                enableSCraft=True, excludeGuessSCraft=False):
+    def randomize(self, enableCraft=True, excludeGuestCraft=False, enableOrder=True, excludeGuestOrder=False,
+                enableSCraft=True, excludeGuestSCraft=False):
         inputPath = self.inputPath
         with open(f'{inputPath}/magic.csv', newline='', encoding='utf-8') as magicFile:
             magicReader = csv.DictReader(magicFile)
@@ -17,7 +17,7 @@ class MagicRandomizer(BaseRandomizer):
 
         if enableCraft:
             crafts = [i for i in magic if i['category'] == '30' and not i['character_restriction'] == '65535' and not i['name'] == 'Spirit Unification']
-            if excludeGuessCraft:
+            if excludeGuestCraft:
                 crafts = [i for i in crafts if int(i['character_restriction']) < 16]
             craftsData = [(i['id'], i['character_restriction'], i['level_learn'], i['animation'], i['juna_specific'], i['sort_id'], i['name']) for i in crafts]
 
@@ -46,7 +46,7 @@ class MagicRandomizer(BaseRandomizer):
             boIndexes = {i['id'] : magicBos.index(i) for i in magicBos}
 
             orders = [i for i in magic if i['category'] == '32' and not i['character_restriction'] == '65535']
-            if excludeGuessOrder:
+            if excludeGuestOrder:
                 orders = [i for i in orders if int(i['character_restriction']) < 16]
             ordersData = [(i['id'], i['character_restriction'], i['animation'], i['sort_id'], i['name']) for i in orders]
 
@@ -73,7 +73,7 @@ class MagicRandomizer(BaseRandomizer):
 
         if enableSCraft:
             scrafts = [i for i in magic if i['category'] == '31' and not i['character_restriction'] == '65535']
-            if excludeGuessSCraft:
+            if excludeGuestSCraft:
                 scrafts = [i for i in scrafts if int(i['character_restriction']) < 16]
             scraftsData = [(i['id'], i['character_restriction'], i['level_learn'], i['animation'], i['juna_specific'], i['sort_id'], i['name']) for i in scrafts]
 

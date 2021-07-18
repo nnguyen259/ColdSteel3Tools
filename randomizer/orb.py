@@ -7,7 +7,7 @@ class OrbRandomizer(BaseRandomizer):
         self.inputPath += 'orb'
         random.seed(self.seed)
 
-    def randomize(self, maxLine=7, minEleSlot=0, maxEleSlot=7, excludeGuess=False):
+    def randomize(self, maxLine=7, minEleSlot=0, maxEleSlot=7, excludeGuest=False):
         inputPath = self.inputPath
         with open(f'{inputPath}/BaseList.csv', newline='') as orbFile:
             reader = csv.DictReader(orbFile)
@@ -22,7 +22,7 @@ class OrbRandomizer(BaseRandomizer):
             for orb in orbs:
                 charId = orb['character_id']
                 if int(charId) > 24: continue
-                if excludeGuess and int(charId) > 15: continue
+                if excludeGuest and int(charId) > 15: continue
                 lineCount = random.randint(1, maxLine)
                 orb['line_count'] = lineCount
                 sizes = []
