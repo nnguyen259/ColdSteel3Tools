@@ -144,7 +144,7 @@ class Frame(ttk.Frame):
             packer.packer.pack(self.gameDirectory.get(), self.projectName.get())
             if self.packScript.get() and len(self.selectedList):
                 self.status.set('Packing script files...')
-                packer.scriptpacker.pack(self.gameDirectory.get(), self.projectName.get(), moduleList=self.selectedList)
+                packer.scriptpacker.pack(self, self.gameDirectory.get(), self.projectName.get(), moduleList=self.selectedList)
             self.status.set('Status: Ready.')
             messagebox.showinfo('Finished', 'All Done!')
             self.btnDirectory['state'] = 'normal'

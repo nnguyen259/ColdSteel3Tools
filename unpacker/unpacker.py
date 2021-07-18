@@ -3,7 +3,7 @@ import importlib, collections
 import csv, json, struct
 
 def unpack(path=None, projectName=None):
-    moduleList = ['magic', 'status', 'orb', 'slot', 'mons', 'item_en']
+    moduleList = ['attach', 'item_en', 'magic', 'mons', 'mstqrt', 'name', 'orb', 'slot', 'status']
     for name in moduleList:
         file = f'{path}/data/text/dat_en/t_{name}.tbl'
         outputPath = f'projects/{projectName}/text/{name}/'
@@ -52,6 +52,7 @@ def unpack(path=None, projectName=None):
             i = 0
             while i < totalEntries:
                 i += 1
+                print(i)
                 chunks = data.split(b'\x00', maxsplit=1)
                 data = io.BytesIO(chunks[1])
                 header = chunks[0].decode('utf-8')
@@ -178,4 +179,4 @@ def unpack(path=None, projectName=None):
                     writer = csv.DictWriter(headerFile, fieldnames=fieldNames)
                     writer.writeheader()
                     writer.writerows(rowList)
-    print('Unpack Done')
+                    

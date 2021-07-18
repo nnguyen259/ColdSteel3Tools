@@ -131,4 +131,4 @@ def pack(path=None, projectName=None, randomizer=False):
                                             elif moduleSchema[subKey] == 't':
                                                 dataFile.write(subEntry[subKey].encode('utf-8'))
                                                 dataFile.write(b'\x00')
-    print('Pack Done')
+                                                
