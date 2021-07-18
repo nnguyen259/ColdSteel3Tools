@@ -22,7 +22,7 @@ For all tools, Game Directory refers to the directory where the game launcher (`
 
 ### Randomizer
 
-- **Base Project**: The name of the project to be used as the base for the randomizer. `TOCS3 Vanilla` is the original version of the game.
+- **Base Project**: The name of the project to be used as the base for the randomizer. `BaseProject` is the original version of the game.
 - **Seed**: The seed to be used in the randomizer
 
 The result of the randomizer will be saved in the `results.txt` file.
@@ -41,15 +41,17 @@ As I have no experience with Ryujinx or Switch homebrew, follow their instructio
 
 ## Randomizer
 
-### Magic
+### Enemy
 
-(Guess characters can be optionally excluded from the randomizer)
+Randomize enemies' base stat, stat growth, elemental/status/unbalance efficacy with the option to keep the enemies' original pretrify and deathblow efficacy.
 
-Randomize things in the magic table of the game, which includes:
+Low roll chance will make sure that some efficacy stay low so enemies aren't weak to everything.
 
-- **Crafts**: Randomize the craft set of every playable character, excluding Rean's Spirit Unification. Juna will have two craft sets, one for each of her form.
-- **S-Crafts**: Randomize the S-Craft for every playable character.
-- **Brave Orders**: Randomize the Brave Orders for every playable character.
+### Stat, Craft, Orbment Line and Model
+
+(Guest characters can be optionally excluded from the randomizer)
+
+Randomize Base Stat, Stat Growth, Base EP, EP Growth, Orbment Line, Craft, S-Craft, Brave Order and Character Model for all playable characters. 
 
 ## Releases
 
