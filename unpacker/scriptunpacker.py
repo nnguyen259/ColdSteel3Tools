@@ -1,3 +1,4 @@
+from subprocess import CREATE_NO_WINDOW
 from frames.unpacker import Frame
 import os, json
 
@@ -63,4 +64,4 @@ def unpack(frame : Frame, path=None, projectName=None, moduleList=['scena'], dec
             files = [f.name for f in os.scandir(scriptPath) if f.is_file() and f.name.endswith('.dat')]
             for file in files:
                 frame.status.set(f'Unpacking {module}/{file}...')
-                subprocess.run(["decompiler/SenScriptsDecompiler.exe", "CS3", f'{scriptPath}/{file}', outpath])
+                subprocess.run(["decompiler/SenScriptsDecompiler.exe", "CS3", f'{scriptPath}/{file}', outpath], creationflags=CREATE_NO_WINDOW)

@@ -1,4 +1,5 @@
 import os, json
+from subprocess import CREATE_NO_WINDOW
 from frames.packer import Frame
 
 def pack(frame: Frame,path=None, projectName=None, randomizer=False, moduleList=[], decompiler=True):
@@ -75,4 +76,4 @@ def pack(frame: Frame,path=None, projectName=None, randomizer=False, moduleList=
             import subprocess
             for filename in [f.name for f in os.scandir(f'{projectDir}/{scriptFolder}') if f.is_file()]:
                 frame.status.set(f'Packing {scriptFolder}/{filename}...')
-                subprocess.run(["decompiler/SenScriptsDecompiler.exe", "CS3", f'{projectDir}/{scriptFolder}/{filename}', gamePath])
+                subprocess.run(["decompiler/SenScriptsDecompiler.exe", "CS3", f'{projectDir}/{scriptFolder}/{filename}', gamePath], creationflags=CREATE_NO_WINDOW)
