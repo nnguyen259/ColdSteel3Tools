@@ -6,6 +6,7 @@ def unpack(path=None, projectName=None):
     moduleList = ['attach', 'item_en', 'magic', 'mons', 'mstqrt', 'name', 'orb', 'slot', 'status']
     for name in moduleList:
         file = f'{path}/data/text/dat_en/t_{name}.tbl'
+        if not os.path.exists(file): continue
         outputPath = f'projects/{projectName}/text/{name}/'
 
         os.makedirs(outputPath, exist_ok=True)

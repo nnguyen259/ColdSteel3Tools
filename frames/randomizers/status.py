@@ -35,7 +35,7 @@ class Frame(ttk.Frame):
         self.cbtnRandomizeBaseEP.grid(row=1, column=3, columnspan=2, padx=50, pady=5, sticky='w')
 
         self.randomizeEPGrowth = tk.IntVar()
-        self.cbtnRandomizeEPGrowth = ttk.Checkbutton(self, text='Randomize Stat Growth', variable=self.randomizeEPGrowth)
+        self.cbtnRandomizeEPGrowth = ttk.Checkbutton(self, text='Randomize EP Growth', variable=self.randomizeEPGrowth)
         self.cbtnRandomizeEPGrowth.grid(row=3, column=3, columnspan=2, padx=50, pady=5, sticky='w')
 
     def randomize(self, projectName, seed):

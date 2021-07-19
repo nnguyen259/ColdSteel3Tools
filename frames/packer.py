@@ -141,12 +141,16 @@ class Frame(ttk.Frame):
             os.makedirs(f'{self.gameDirectory.get()}/data/text/dat_en', exist_ok=True)
             import packer.packer, packer.scriptpacker
             self.status.set('Packing tbl files...')
-            packer.packer.pack(self.gameDirectory.get(), self.projectName.get())
-            if self.packScript.get() and len(self.selectedList):
-                self.status.set('Packing script files...')
-                packer.scriptpacker.pack(self, self.gameDirectory.get(), self.projectName.get(), moduleList=self.selectedList)
-            self.status.set('Status: Ready.')
-            messagebox.showinfo('Finished', 'All Done!')
+            try:
+                packer.packer.pack(self.gameDirectory.get(), self.projectName.get())
+                if self.packScript.get() and len(self.selectedList):
+                    self.status.set('Packing script files...')
+                    packer.scriptpacker.pack(self, self.gameDirectory.get(), self.projectName.get(), moduleList=self.selectedList)
+                self.status.set('Status: Ready.')
+                messagebox.showinfo('Finished', 'All Done!')
+            except Exception:
+                import traceback
+                messagebox.showerror('Error', traceback.format_exception())
             self.btnDirectory['state'] = 'normal'
             self.btnPack['state'] = 'normal'
             self.btnBack['state'] = 'normal'

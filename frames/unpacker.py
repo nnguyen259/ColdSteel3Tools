@@ -120,12 +120,16 @@ class Frame(ttk.Frame):
             os.mkdir('projects/' + self.projectName.get())
             import unpacker.unpacker, unpacker.scriptunpacker
             self.status.set('Status: Unpacking tbl files...')
-            unpacker.unpacker.unpack(self.gameDirectory.get(), self.projectName.get())
-            if self.unpackScript.get() and len(self.selectedList):
-                self.status.set('Status: Unpacking script files...')
-                unpacker.scriptunpacker.unpack(self, self.gameDirectory.get(), self.projectName.get(), self.selectedList)
-            self.status.set('Status: Ready.')
-            messagebox.showinfo('Finished', 'All Done!')
+            try:
+                unpacker.unpacker.unpack(self.gameDirectory.get(), self.projectName.get())
+                if self.unpackScript.get() and len(self.selectedList):
+                    self.status.set('Status: Unpacking script files...')
+                    unpacker.scriptunpacker.unpack(self, self.gameDirectory.get(), self.projectName.get(), self.selectedList)
+                self.status.set('Status: Ready.')
+                messagebox.showinfo('Finished', 'All Done!')
+            except Exception:
+                import traceback
+                messagebox.showerror('Error', traceback.format_exc())
             self.btnDirectory['state'] = 'normal'
             self.btnUnpack['state'] = 'normal'
             self.btnBack['state'] = 'normal'

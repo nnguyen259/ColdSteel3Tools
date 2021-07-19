@@ -76,17 +76,21 @@ class Frame(ttk.Frame):
             self.status.set('Preparing files...')
             os.makedirs(f'{self.gameDirectory.get()}/data/text/dat_en', exist_ok=True)
             copy_tree(f'projects/{self.projectName.get()}', f'projects/{self.projectName.get()}/tmp')
-            for frame in self.frameLists:
-                self.status.set(f'Randomizing {frame.name}...')
-                frame.randomize(self.projectName.get(), seed)
-            import packer.packer, packer.scriptpacker
-            self.status.set('Packing tbl files...')
-            packer.packer.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
-            self.status.set('Packing script files...')
-            packer.scriptpacker.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
-            remove_tree(f'projects/{self.projectName.get()}/tmp')
-            self.status.set('Status: Ready.')
-            messagebox.showinfo('Finished', 'All Done!')
+            try:
+                for frame in self.frameLists:
+                    self.status.set(f'Randomizing {frame.name}...')
+                    frame.randomize(self.projectName.get(), seed)
+                import packer.packer, packer.scriptpacker
+                self.status.set('Packing tbl files...')
+                packer.packer.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
+                self.status.set('Packing script files...')
+                packer.scriptpacker.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
+                remove_tree(f'projects/{self.projectName.get()}/tmp')
+                self.status.set('Status: Ready.')
+                messagebox.showinfo('Finished', 'All Done!')
+            except Exception:
+                import traceback
+                messagebox.showerror('Error', traceback.format_exception())
             self.btnDirectory['state'] = 'normal'
             self.btnRandomize['state'] = 'normal'
             self.btnBack['state'] = 'normal'

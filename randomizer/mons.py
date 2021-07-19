@@ -7,7 +7,10 @@ class MonsRandomizer(BaseRandomizer):
         random.seed(self.seed)
         self.inputPath += 'mons'
 
-    def randomize(self, enableBase=True, baseVariance=30, enableGrowth=True, growthVariance=30, lowRoll=30, randomizeElemental=True, randomizeStatus=True, keepDeathblow=False, randomizeUnbalance=True):
+    def randomize(self, enableBase=True, baseVariance=30, enableGrowth=True, growthVariance=30, 
+                  lowRollElemental=30, lowCapElemental=30, highCapElemental=200, randomizeElemental=True, 
+                  lowRollStatus=30, lowCapStatus=30, highCapStatus=200, randomizeStatus=True, keepDeathblow=False, 
+                  lowRollUnbalance=30, randomizeUnbalance=True):
         inputPath = self.inputPath
         baseVariance = (100 - baseVariance)/100
         growthVariance = (100 -growthVariance)/100
@@ -53,24 +56,30 @@ class MonsRandomizer(BaseRandomizer):
                     mon[f'{stat}_growth'] += 0.01
 
             if randomizeElemental:
+                if lowCapElemental > highCapElemental:
+                    lowCapElemental, highCapElemental = highCapElemental, lowCapElemental
+                if 'S' not in mon['flags']:
+                    mon['flags'] += 'S'
                 for element in elements:
-                    if random.randint(1, 100) <= lowRoll:
-                        mon[f'{element}_efficacy'] = random.randrange(0, 31, 5)
+                    if random.randint(1, 100) <= lowRollElemental:
+                        mon[f'{element}_efficacy'] = random.randrange(0, lowCapElemental + 1, 5)
                     else:
-                        mon[f'{element}_efficacy'] = random.randrange(20, 201, 5)
+                        mon[f'{element}_efficacy'] = random.randrange(lowCapElemental, highCapElemental + 1, 5)
 
             if randomizeStatus:
+                if lowCapStatus > highCapStatus:
+                    lowCapStatus, highCapStatus = highCapStatus, lowCapStatus
                 for stat in status:
                     if keepDeathblow:
-                        if stat == 'petr' or stat == 'dblw': continue
-                    if random.randint(1, 100) <= lowRoll:
-                        mon[f'{stat}_efficacy'] = random.randrange(0, 31, 5)
+                        if stat in ['petr', 'dblw', 'vnsh']: continue
+                    if random.randint(1, 100) <= lowRollStatus:
+                        mon[f'{stat}_efficacy'] = random.randrange(0, lowCapStatus + 1, 5)
                     else:
-                        mon[f'{stat}_efficacy'] = random.randrange(20, 201, 5)
+                        mon[f'{stat}_efficacy'] = random.randrange(lowCapStatus, highCapStatus + 1, 5)
 
             if randomizeUnbalance:
                 for unbalance in unbalances:
-                    if random.randint(1, 100) <= lowRoll:
+                    if random.randint(1, 100) <= lowRollUnbalance:
                         mon[f'{unbalance}_efficacy'] = random.choice([10, 50])
                     else:
                         mon[f'{unbalance}_efficacy'] = random.choice(unbalanceValues)
