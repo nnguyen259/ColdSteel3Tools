@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
-import frames.mainFrame as Main
+from ..frames import mainFrame as Main
 
 import os, shutil, threading
 
@@ -118,7 +118,7 @@ class Frame(ttk.Frame):
     def doUnpack(self):
         def realUnpack():
             os.mkdir('projects/' + self.projectName.get())
-            import unpacker.unpacker, unpacker.scriptunpacker
+            from ..unpacker import unpacker, scriptunpacker
             self.status.set('Status: Unpacking tbl files...')
             try:
                 unpacker.unpacker.unpack(self.gameDirectory.get(), self.projectName.get())

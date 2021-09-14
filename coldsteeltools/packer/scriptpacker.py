@@ -1,6 +1,6 @@
 import os, json
 from subprocess import CREATE_NO_WINDOW
-from frames.packer import Frame
+from ..frames.packer import Frame
 
 def pack(frame: Frame,path=None, projectName=None, randomizer=False, moduleList=[], decompiler=True):
     projectDir = f'projects/{projectName}/tmp/scripts' if randomizer else f'projects/{projectName}/scripts'

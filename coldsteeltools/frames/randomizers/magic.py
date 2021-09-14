@@ -1,4 +1,4 @@
-from randomizer.magic import MagicRandomizer
+from ...randomizer.magic import MagicRandomizer
 import tkinter as tk
 from tkinter.constants import VERTICAL
 import tkinter.ttk as ttk

@@ -2,10 +2,10 @@ import os
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as messagebox
-import frames.unpacker as Unpacker
-import frames.editor as Editor
-import frames.packer as Packer
-import frames.randomizer as Randomizer
+from ..frames import unpacker as Unpacker
+from ..frames import editor as Editor
+from ..frames import packer as Packer
+from ..frames import randomizer as Randomizer
 
 class Frame(ttk.Frame):
     def __init__(self, master=None):

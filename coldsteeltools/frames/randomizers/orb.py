@@ -1,4 +1,4 @@
-from randomizer.orb import OrbRandomizer
+from ...randomizer.orb import OrbRandomizer
 import tkinter as tk
 from tkinter.constants import VERTICAL
 import tkinter.ttk as ttk

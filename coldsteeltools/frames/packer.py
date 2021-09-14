@@ -3,7 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
-import frames.mainFrame as Main
+from . import mainFrame as Main
 
 import os
 
@@ -139,7 +139,7 @@ class Frame(ttk.Frame):
     def doPack(self):
         def realPack():
             os.makedirs(f'{self.gameDirectory.get()}/data/text/dat_en', exist_ok=True)
-            import packer.packer, packer.scriptpacker
+            from ..packer import packer, scriptpacker
             self.status.set('Packing tbl files...')
             try:
                 packer.packer.pack(self.gameDirectory.get(), self.projectName.get())

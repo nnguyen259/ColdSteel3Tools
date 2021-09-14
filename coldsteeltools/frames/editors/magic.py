@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-import frames.editor as Editor
+from ...frames import editor as Editor
 
 class Frame(ttk.Frame):
     def __init__(self, master=None):

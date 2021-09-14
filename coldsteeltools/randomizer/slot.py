@@ -1,5 +1,5 @@
 import random, csv, json
-from randomizer.base import BaseRandomizer
+from .base import BaseRandomizer
 
 class SlotRandomizer(BaseRandomizer):
     def __init__(self, projectName=None, seed=None, programMode=True) -> None:
