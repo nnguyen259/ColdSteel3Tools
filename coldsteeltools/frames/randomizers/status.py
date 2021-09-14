@@ -1,5 +1,5 @@
-from randomizer.slot import SlotRandomizer
-from randomizer.status import StatusRandomizer
+from ...randomizer.slot import SlotRandomizer
+from ...randomizer.status import StatusRandomizer
 import tkinter as tk
 import tkinter.ttk as ttk
 

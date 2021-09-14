@@ -1,5 +1,5 @@
 import csv, random, json
-from randomizer.base import BaseRandomizer
+from .base import BaseRandomizer
 
 class MagicRandomizer(BaseRandomizer):
     def __init__(self, projectName=None, seed=None, programMode=True) -> None:

@@ -1,4 +1,4 @@
-from randomizer.mons import MonsRandomizer
+from ...randomizer.mons import MonsRandomizer
 import tkinter as tk
 import tkinter.ttk as ttk
 

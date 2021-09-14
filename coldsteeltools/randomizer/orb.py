@@ -1,5 +1,5 @@
 import random, csv, json
-from randomizer.base import BaseRandomizer
+from .base import BaseRandomizer
 
 class OrbRandomizer(BaseRandomizer):
     def __init__(self, projectName, seed, programMode=True) -> None:

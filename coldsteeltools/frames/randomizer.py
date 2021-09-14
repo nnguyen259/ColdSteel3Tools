@@ -3,12 +3,12 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
-import frames.mainFrame as Main
-import frames.randomizers.magic as Magic
-import frames.randomizers.orb as Orb
-import frames.randomizers.status as Status
-import frames.randomizers.misc as Misc
-import frames.randomizers.mons as Mons
+from ..frames import mainFrame as Main
+from ..frames.randomizers import magic as Magic
+from ..frames.randomizers import orb as Orb
+from ..frames.randomizers import status as Status
+from ..frames.randomizers import misc as Misc
+from ..frames.randomizers import mons as Mons
 
 import os
 
@@ -80,7 +80,7 @@ class Frame(ttk.Frame):
                 for frame in self.frameLists:
                     self.status.set(f'Randomizing {frame.name}...')
                     frame.randomize(self.projectName.get(), seed)
-                import packer.packer, packer.scriptpacker
+                from ..packer import packer, scriptpacker
                 self.status.set('Packing tbl files...')
                 packer.packer.pack(self.gameDirectory.get(), self.projectName.get(), randomizer=True)
                 self.status.set('Packing script files...')

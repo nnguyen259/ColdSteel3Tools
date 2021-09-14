@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-import frames.mainFrame as Main
-import frames.editors.magic as Magic
+from ..frames import mainFrame as Main
+from ..frames.editors import magic as Magic
 
 class Frame(ttk.Frame):
     def __init__(self, master=None):

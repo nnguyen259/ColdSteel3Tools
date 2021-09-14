@@ -1,5 +1,5 @@
 import tkinter as tk
-import frames.mainFrame as Main
+import coldsteeltools.frames.mainFrame as Main
 
 class CS3App(tk.Tk):
     def __init__(self, *args, **kwargs):

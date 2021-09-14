@@ -1,5 +1,5 @@
 from subprocess import CREATE_NO_WINDOW
-from frames.unpacker import Frame
+from ..frames.unpacker import Frame
 import os, json
 
 def unpack(frame : Frame, path=None, projectName=None, moduleList=['scena'], decompiler=True):

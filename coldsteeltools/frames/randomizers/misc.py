@@ -1,4 +1,4 @@
-from randomizer.model import ModelRandomizer
+from ...randomizer.model import ModelRandomizer
 import tkinter as tk
 import tkinter.ttk as ttk
 
